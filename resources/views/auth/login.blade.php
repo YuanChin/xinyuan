@@ -1,56 +1,104 @@
-<x-app-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
-
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+<x-auth-layout>
+    <div class="relative min-h-screen flex ">
+        <div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0 bg-white">
+            
+            <div class="sm:w-1/2 xl:w-3/5 h-full hidden md:flex flex-auto bg-no-repeat bg-cover relative"
+                 style="background-image: url(https://i0.hippopx.com/photos/506/770/394/hong-kong-city-urban-skyscrapers-preview.jpg);">
+                <div class="absolute bg-gradient-to-b from-gray-900 to-gray-500 opacity-75 inset-0 z-0"></div>
+                <!---remove custom style-->
+                <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
             </div>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-            </div>
-
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
+            <div class="md:flex md:flex-col md:items-center md:justify-center w-full sm:w-auto md:h-full xl:w-2/5 p-8  md:p-10 lg:p-14 sm:rounded-lg md:rounded-none bg-white">
+                <div class="flex justify-end items-center w-full">
+                    <a class="p-2 hover:-translate-x-1 ease-in-out duration-500" href="{{ url('/') }}" title="首頁">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
+                            <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
+                        </svg>
                     </a>
-                @endif
+                </div>
+                <div class="max-w-md w-full space-y-10">
+                    <div class="text-center">
+                        <h2 class="mt-6 text-4xl font-bold text-gray-900">
+                            <span>Xinyuan</span>
+                        </h2>
+                        <p class="mt-5 text-base text-gray-500">
+                            <span>登入系統</span>
+                        </p>
+                    </div>
+                    <div class="flex items-center justify-center space-x-2">
+                        <span class="h-px w-16 bg-gray-200"></span>
+                        <span class="text-gray-300 font-normal">我是分隔線</span>
+                        <span class="h-px w-16 bg-gray-200"></span>
+                    </div>
 
-                <x-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-button>
+                    <div class="h-px w--full bg-gray-200"> </div>
+                    
+                    <!-- login page -->
+
+                    <!-- Validation Errors -->
+                    <x-auth-validation-errors class="mb-4" :errors="$errors" />
+
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+
+                        <!-- Email Address -->
+                        <x-floating-input
+                            :id="__('email_field')"
+                            :type="__('email')"
+                            :name="__('email')"
+                            :content="__('請輸入您的信箱')"
+                            :value="old('email')"
+                            required autofocus
+                        >
+
+                        </x-floating-input>
+
+                        <!-- Password -->
+                        <x-floating-input
+                            :id="__('password_field')"
+                            :type="__('password')"
+                            :name="__('password')"
+                            :content="__('請輸入您的密碼')"
+                            required autocomplete="current-password"
+                        >
+
+                        </x-floating-input>
+
+                        <!-- Remember Me -->
+                        <div class="block mt-4">
+                            <label for="remember_me" class="inline-flex items-center">
+                                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                            </label>
+                        </div>
+
+                        <div class="flex items-center justify-end mt-4">
+                            @if (Route::has('password.request'))
+                                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                                    {{ __('Forgot your password?') }}
+                                </a>
+                            @endif
+
+                            <x-button class="ml-3">
+                                {{ __('Log in') }}
+                            </x-button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </form>
-    </x-auth-card>
-</x-app-layout>
+
+        </div>
+    </div>
+</x-auth-layout>

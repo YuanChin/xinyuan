@@ -3,16 +3,28 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
+use App\Http\Requests\Auth\RegisterUserRequest;
+use App\Services\Auth\RegisterUserService;
 
 class RegisteredUserController extends Controller
 {
+    /**
+     * Store an instance of the RegisterUserService class.
+     * 
+     * @var RegisterUserService
+     */
+    private $registerUserService;
+
+    /**
+     * Create a new RegisterUserController instance.
+     * 
+     * @param RegisterUserService $registerUserService
+     */
+    public function __construct(RegisterUserService $registerUserService)
+    {
+        $this->registerUserService = $registerUserService;
+    }
+
     /**
      * Display the registration view.
      *
@@ -24,31 +36,17 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Handle an incoming registration request.
+     * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param RegisterUserRequest $request
      * @return \Illuminate\Http\RedirectResponse
-     *
+     * 
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(RegisterUserRequest $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        $this->registerUserService->register($request);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('verification.notice');
     }
 }

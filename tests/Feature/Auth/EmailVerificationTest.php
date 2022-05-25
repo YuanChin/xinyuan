@@ -5,7 +5,10 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
@@ -31,17 +34,14 @@ class EmailVerificationTest extends TestCase
             'email_verified_at' => null,
         ]);
 
-        Event::fake();
+        $code      = randomNumberCode(1, 9999, 4, 0);
+        $expiredAt = now()->addMinutes(3);
 
-        $verificationUrl = URL::temporarySignedRoute(
-            'verification.verify',
-            now()->addMinutes(60),
-            ['id' => $user->id, 'hash' => sha1($user->email)]
-        );
+        Cache::put("verificationCode_" . $user->id, ['code' => $code], $expiredAt);
 
-        $response = $this->actingAs($user)->get($verificationUrl);
+        $response = $this->actingAs($user)
+                         ->post(route('verification.verify'), ['verification_code' => $code]);
 
-        Event::assertDispatched(Verified::class);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
         $response->assertRedirect(RouteServiceProvider::HOME.'?verified=1');
     }
@@ -52,14 +52,18 @@ class EmailVerificationTest extends TestCase
             'email_verified_at' => null,
         ]);
 
-        $verificationUrl = URL::temporarySignedRoute(
-            'verification.verify',
-            now()->addMinutes(60),
-            ['id' => $user->id, 'hash' => sha1('wrong-email')]
-        );
+        $response = $this->actingAs($user)
+                         ->post(route('verification.resend'));
 
-        $this->actingAs($user)->get($verificationUrl);
+        $response->assertSessionHas('status', '驗證碼已經重新發送！');
 
-        $this->assertFalse($user->fresh()->hasVerifiedEmail());
+        $user = User::factory()->create([
+            'email_verified_at' => Date::now(),
+        ]);
+
+        $response = $this->actingAs($user)
+                         ->post(route('verification.resend'));
+
+        $response->assertRedirect(RouteServiceProvider::HOME);
     }
 }
