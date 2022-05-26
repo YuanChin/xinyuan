@@ -14,5 +14,6 @@ yarn-error.log
 /.vscode
 /public/js
 /public/css
+/public/uploads
 *.sqlite
 .env.testing

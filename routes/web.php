@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,3 +19,13 @@ Route::get('/', function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::resource('users', UserController::class)->only([
+        'edit', 'update'
+    ]);
+});
+
+
+Route::get('users/{user}', [UserController::class, 'show'])
+    ->name('users.show');

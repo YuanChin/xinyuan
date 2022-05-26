@@ -1,6 +1,6 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
@@ -22,25 +22,60 @@
             </div>
 
             @guest
-            <div class="hidden sm:ml-6 sm:flex">
-                <x-nav-link :href="route('login')" :active="request()->routeIs('login')">
-                    {{ __('登入') }}
-                </x-nav-link>
-                <x-nav-link :href="route('register')" :active="request()->routeIs('register')">
-                    {{ __('註冊') }}
-                </x-nav-link>
+            <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                <a
+                    href="{{ route('login') }}"
+                    class="flex items-center justify-center h-10 text-emerald-400 transition duration-300 hover:text-gray-500"
+                >
+                    <span>登入</span>
+                </a>
+                <div class="px-1">
+                    <span><i class="bi bi-slash-lg"></i></span>
+                </div>
+                <a
+                    href="{{ route('register') }}"
+                    class="flex items-center justify-center text-blue-400 h-10 transition duration-300 hover:text-gray-500"
+                >
+                    <span>註冊</span>
+                </a>
             </div>
             @else
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-                <x-dropdown align="right" width="48">
+                <x-dropdown width="w-60">
                     <x-slot name="trigger">
                         <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                            <img src="https://bruce-fe-fb.web.app/image/avator.png" alt="avatar" class="rounded-full w-8 h-8">
+                            <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-full w-8 h-8">
                         </button>
                     </x-slot>
 
                     <x-slot name="content">
+                        <div class="flex flex-row justify-start p-4 border-b-2">
+                            <div class="flex items-center mr-4">
+                                <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-full w-12 h-12">
+                            </div>
+                            <div class="flex justify-center items-center">
+                                <div class="text-xl">
+                                    <span><strong>{{ Auth()->user()->name }}</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <x-dropdown-link :href="route('users.show', Auth::id())">
+                            <div class="flex flex-row">
+                                <div class="flex justify-start w-8">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+                                <span>{{ __('個人中心') }}</span>
+                            </div>
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('users.edit', Auth::id())">
+                            <div class="flex flex-row">
+                                <div class="flex justify-start w-8">
+                                    <i class="bi bi-pencil"></i>
+                                </div>
+                                <span>{{ __('編輯資料') }}</span>
+                            </div>
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -48,7 +83,12 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                <div class="flex flex-row">
+                                    <div class="flex justify-start w-8">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                    </div>
+                                    <span>{{ __('登出') }}</span>
+                                </div>
                             </x-dropdown-link>
                         </form>
                     </x-slot>
