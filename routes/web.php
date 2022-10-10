@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Posts\CategoryController;
 use App\Http\Controllers\Posts\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,3 +19,5 @@ require __DIR__.'/auth.php';
 
 Route::get('/', [PostController::class, 'index'])
     ->name('root');
+Route::get('categories/{postCategory}/{name?}', [CategoryController::class, 'show'])
+    ->name('categories.show');
