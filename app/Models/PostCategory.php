@@ -37,6 +37,16 @@ class PostCategory extends Model
     }
 
     /**
+     * Get the posts that belong to the category.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    /**
      * If the category collection hits, the cached category collection will be returned. Otherwise, it will return from PostCategory instance.
      *
      * @return mixed
