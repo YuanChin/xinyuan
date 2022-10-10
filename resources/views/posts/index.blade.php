@@ -44,7 +44,7 @@
         <div class="md:pl-[19.5rem]">
             <div class="flex flex-row my-5 mx-4">
                 <div class="flex-1 max-w-[796px]">
-                    
+                    @include("posts.parts.list")
                 </div>
             </div>
         </div>
