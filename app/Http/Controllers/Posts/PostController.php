@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Posts;
 
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use App\Services\Posts\PostService;
 use Illuminate\Http\Request;
 
@@ -32,6 +33,24 @@ class PostController extends Controller
 
         return view('posts.index', [
             'posts' => $posts
+        ]);
+    }
+
+    /**
+     * Display the specified resource
+     *
+     * @param Request $request
+     * @param Post $post
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function show(Request $request, Post $post)
+    {
+        if (!empty($post->slug) && $post->slug != $request->slug) {
+            return redirect($post->showLink(), 301);
+        }
+
+        return view("posts.show", [
+            'post' => $post
         ]);
     }
 }

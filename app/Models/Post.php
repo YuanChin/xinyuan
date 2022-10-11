@@ -24,6 +24,16 @@ class Post extends Model
     ];
 
     /**
+     * Reorganize the link to the post that will be shown.
+     *
+     * @return string
+     */
+    public function showLink()
+    {
+        return route('posts.show', [$this->id, $this->slug]);
+    }
+
+    /**
      * Get the user that owns this post.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

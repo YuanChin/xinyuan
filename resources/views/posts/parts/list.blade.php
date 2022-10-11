@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <h2>
-                    <a href="" class="after:content-[''] after:absolute after:inset-0">
+                    <a href="{{ $post->showLink() }}" class="after:content-[''] after:absolute after:inset-0">
                         <span class="text-lg font-semibold text-zinc-50">{{ $post->title }}</span>
                     </a>
                 </h2>

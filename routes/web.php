@@ -19,5 +19,9 @@ require __DIR__.'/auth.php';
 
 Route::get('/', [PostController::class, 'index'])
     ->name('root');
+Route::get('posts', [PostController::class, 'index'])
+    ->name('posts.index');
+Route::get('posts/{post}/{slug?}', [PostController::class, 'show'])
+    ->name('posts.show');
 Route::get('categories/{postCategory}/{name?}', [CategoryController::class, 'show'])
     ->name('categories.show');
