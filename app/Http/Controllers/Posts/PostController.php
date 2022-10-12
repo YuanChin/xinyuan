@@ -130,6 +130,21 @@ class PostController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Post $post)
+    {
+        $this->authorize('destroy', $post);
+
+        $post->delete();
+
+        return $this->success([], '文章刪除成功！');
+    }
+
+    /**
      * Handle the uploaded image from the wangEditor editor.
      *
      * @param Request $request

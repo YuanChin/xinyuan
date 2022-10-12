@@ -29,6 +29,9 @@
                             <x-posts.edit
                                 :post="$post"
                             ></x-posts.edit>
+                            <x-posts.delete
+                                :post="$post"
+                            ></x-posts.delete>
                         </div>
                     </x-slot>
                 </x-dropdown>

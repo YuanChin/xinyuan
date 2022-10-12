@@ -28,6 +28,8 @@ Route::middleware(['auth'])
             ->name('posts.publish');
         Route::put('posts/{post}/unpublish', [PostController::class, 'unpublish'])
             ->name('posts.unpublish');
+        Route::delete('posts/{post}', [PostController::class, 'destroy'])
+            ->name('posts.destroy');
         Route::post('posts/image/upload', [PostController::class, 'uploadImage'])
             ->name('posts.upload_image');
         Route::delete('posts/image/destroy', [PostController::class, 'deleteImage'])
