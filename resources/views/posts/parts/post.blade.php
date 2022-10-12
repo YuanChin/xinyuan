@@ -12,11 +12,12 @@
                 
                 <p>{{$post->user->name}}</p>
             </a>
+            @can('update', $post)
             <div class="absolute right-5 top-6">
                 <x-dropdown
-                    size="w-36"
-                    position="-left-[100px] top-[50px]"
-                    contentClasses="bg-zinc-900 border-x border-b border-gray-400 opacity-80 text-zinc-50"
+                    size="w-24"
+                    position="-left-[80px] top-[40px]"
+                    contentClasses="bg-zinc-900 opacity-80 text-zinc-50"
                 >
                     <x-slot name="trigger">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-three-dots-vertical w-6 h-6" viewBox="0 0 16 16">
@@ -25,10 +26,14 @@
                     </x-slot>
                     <x-slot name="content">
                         <div class="flex flex-col py-2">
+                            <x-posts.edit
+                                :post="$post"
+                            ></x-posts.edit>
                         </div>
                     </x-slot>
                 </x-dropdown>
             </div>
+            @endcan
         </div>
         <div class="pb-[6px]"></div>
         <div class="px-[60px]">

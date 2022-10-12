@@ -45,7 +45,7 @@
                         @else
                         <div class="flex flex-row mx-4">
                             <div class="flex items-center mr-6 text-zinc-50">
-
+                                <x-posts.create></x-posts.create>
                             </div>
                             <div class="flex items-center">
                                 <x-dropdown

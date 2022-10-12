@@ -17,6 +17,26 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
+Route::middleware(['auth'])
+    ->group(function () {
+        // About routes of the post
+        Route::post('posts', [PostController::class, 'store'])
+            ->name('posts.store');
+        Route::get('posts/{post}/edit', [PostController::class, 'edit'])
+            ->name('posts.edit');
+        Route::put('posts/{post}/publish', [PostController::class, 'publish'])
+            ->name('posts.publish');
+        Route::put('posts/{post}/unpublish', [PostController::class, 'unpublish'])
+            ->name('posts.unpublish');
+        Route::post('posts/image/upload', [PostController::class, 'uploadImage'])
+            ->name('posts.upload_image');
+        Route::delete('posts/image/destroy', [PostController::class, 'deleteImage'])
+            ->name('posts.delete_image');
+        Route::post('posts/updated', [PostController::class, 'updated'])
+            ->name('posts.updated');
+});
+
+
 Route::get('/', [PostController::class, 'index'])
     ->name('root');
 Route::get('posts', [PostController::class, 'index'])

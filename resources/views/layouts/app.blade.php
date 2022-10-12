@@ -13,6 +13,7 @@
         @yield('css')
     </head>
     <body class="bg-zinc-900">
+        @include('sweetalert::alert')
         @include('layouts.header')
 
         <!-- Page Content -->
