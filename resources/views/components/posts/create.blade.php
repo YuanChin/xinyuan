@@ -1,5 +1,5 @@
 <div>
-    <form action="{{ route('posts.store') }}" method="post" class="flex items-center">
+    <form action="{{ route('posts.store') }}" method="post" class="flex items-center px-[10px]">
         @csrf
         <button type="submit">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square w-5 h-5" viewBox="0 0 16 16">
