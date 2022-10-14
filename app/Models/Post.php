@@ -54,6 +54,16 @@ class Post extends Model
     }
 
     /**
+     * Get the replies that belong to the post.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+    /**
      * Select the posts have been published.
      *
      * @param \Illuminate\Database\Eloquent\Builder  $query

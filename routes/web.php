@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Posts\CategoryController;
 use App\Http\Controllers\Posts\PostController;
+use App\Http\Controllers\Posts\ReplyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,12 @@ Route::middleware(['auth'])
             ->name('posts.delete_image');
         Route::post('posts/updated', [PostController::class, 'updated'])
             ->name('posts.updated');
+
+        // About routes of the reply
+        Route::post('replies', [ReplyController::class, 'store'])
+            ->name('replies.store');
+        Route::delete('replies/{reply}', [ReplyController::class, 'destroy'])
+            ->name('replies.destroy');
 });
 
 

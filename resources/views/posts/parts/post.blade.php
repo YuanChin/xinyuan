@@ -68,5 +68,21 @@
                 {!! $post->body !!}
             </div>
         </div>
+        <div class="flex items-end flex-1">
+            @include('posts.parts.reply_list', [
+                'replies' => $post->replies()->with([
+                    'user' => function ($query) {
+                        $query->select('id', 'name', 'avatar');
+                    }
+                ])->get()
+            ])
+        </div>
+        @auth
+        <div class="sticky bottom-0 z-10 bg-zinc-800 border-t border-zinc-700">
+            <x-replies.create
+                :post="$post"
+            ></x-replies.create>
+        </div>
+        @endauth
     </div>
 </div>
