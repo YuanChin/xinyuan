@@ -73,6 +73,9 @@
                 'replies' => $post->replies()->with([
                     'user' => function ($query) {
                         $query->select('id', 'name', 'avatar');
+                    },
+                    'post' => function ($query) {
+                        $query->select('id', 'user_id');
                     }
                 ])->get()
             ])
