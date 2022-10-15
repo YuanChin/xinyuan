@@ -18,20 +18,19 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo';
+ import Echo from 'laravel-echo';
 
-// import Pusher from 'pusher-js';
-// window.Pusher = Pusher;
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     wsHost: import.meta.env.VITE_PUSHER_HOST ?? `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
-//     wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
-//     wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
-//     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
-//     enabledTransports: ['ws', 'wss'],
-// });
+ import Pusher from 'pusher-js';
+ window.Pusher = Pusher;
+ 
+ window.Echo = new Echo({
+     broadcaster: 'pusher',
+     key: import.meta.env.VITE_PUSHER_APP_KEY,
+     wsHost: window.location.hostname,
+     wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
+     forceTLS: false,
+     enabledTransports: ['ws', 'wss'],
+ });
 
 import Swal from "sweetalert2";
 window.Swal = Swal;
@@ -51,3 +50,13 @@ window.Toast = Toast;
 
 let token  = document.head.querySelector('meta[name=csrf-token]').content;
 window.token = token;
+
+let userId = document.head.querySelector('meta[name=user-id]').content;
+window.userId = userId;
+
+window.Echo.private(`App.Models.User.${userId}`)
+    .notification((notification) => {
+    window.dispatchEvent(new CustomEvent("set-notification-count", {
+        detail: {count: notification.notification_count}
+    }));
+});

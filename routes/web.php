@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Posts\CategoryController;
 use App\Http\Controllers\Posts\PostController;
 use App\Http\Controllers\Posts\ReplyController;
@@ -43,6 +44,10 @@ Route::middleware(['auth'])
             ->name('replies.store');
         Route::delete('replies/{reply}', [ReplyController::class, 'destroy'])
             ->name('replies.destroy');
+
+        // About routes of the notification
+        Route::get('notifications', [NotificationController::class, 'index'])
+            ->name('notifications.index');
 });
 
 

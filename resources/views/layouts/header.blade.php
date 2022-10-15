@@ -46,6 +46,11 @@
                         <div class="flex flex-row mx-4">
                             <div class="flex items-center mr-6 text-zinc-50">
                                 <x-posts.create></x-posts.create>
+                                <x-users.notification
+                                    size="w-[400px] h-[400px]"
+                                    position="top-[40px] right-0"
+                                    contentClasses="bg-zinc-800 opacity-80 text-zinc-50"
+                                ></x-users.notification>
                             </div>
                             <div class="flex items-center">
                                 <x-dropdown
